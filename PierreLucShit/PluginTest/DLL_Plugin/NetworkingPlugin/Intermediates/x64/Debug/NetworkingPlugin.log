@@ -1,0 +1,7 @@
+﻿C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppBuild.targets(444,5): warning MSB8004: Intermediate Directory does not end with a trailing slash.  This build instance will add the slash as it is required to allow proper evaluation of the Intermediate Directory.
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppBuild.targets(445,5): warning MSB8004: Output Directory does not end with a trailing slash.  This build instance will add the slash as it is required to allow proper evaluation of the Output Directory.
+  Source.cpp
+D:\001 School\001 Networking\PierreLucShit\PluginTest\DLL_Plugin\NetworkingPlugin\Source.cpp(41,5): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+D:\001 School\001 Networking\PierreLucShit\PluginTest\DLL_Plugin\NetworkingPlugin\Source.cpp(150,5): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+     Creating library ..\..\Assets\Plugins\NetworkingPlugin.lib and object ..\..\Assets\Plugins\NetworkingPlugin.exp
+  NetworkingPlugin.vcxproj -> D:\001 School\001 Networking\PierreLucShit\PluginTest\DLL_Plugin\NetworkingPlugin\..\..\Assets\Plugins\NetworkingPlugin.dll
