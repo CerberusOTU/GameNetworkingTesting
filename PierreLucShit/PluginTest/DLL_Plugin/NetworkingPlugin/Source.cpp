@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "Source.h"
 
-INT8 clientID;
+char clientID;
 
 
 PLUGIN_OUT void InitPlugin(CS_to_Plugin_Functions funcs)
@@ -34,7 +34,7 @@ PLUGIN_OUT void SendTransform(Vector3 transform)
 {
 	char message[BUFLEN];
 	
-	std::string msg = std::to_string(1) + std::to_string(clientID) + std::to_string(transform.x) + "@" + std::to_string(transform.y) + "@" + std::to_string(transform.z);
+	std::string msg = std::to_string(1) + clientID + std::to_string(transform.x) + "@" + std::to_string(transform.y) + "@" + std::to_string(transform.z);
 	
 	strcpy_s(message, (char*)msg.c_str());
 	

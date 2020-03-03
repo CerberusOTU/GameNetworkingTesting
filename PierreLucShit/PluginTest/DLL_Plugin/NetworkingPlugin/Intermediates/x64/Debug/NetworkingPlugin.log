@@ -3,5 +3,4 @@ C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\
   Source.cpp
 D:\001 School\001 Networking\PierreLucShit\PluginTest\DLL_Plugin\NetworkingPlugin\Source.cpp(41,5): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
 D:\001 School\001 Networking\PierreLucShit\PluginTest\DLL_Plugin\NetworkingPlugin\Source.cpp(150,5): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
-     Creating library ..\..\Assets\Plugins\NetworkingPlugin.lib and object ..\..\Assets\Plugins\NetworkingPlugin.exp
   NetworkingPlugin.vcxproj -> D:\001 School\001 Networking\PierreLucShit\PluginTest\DLL_Plugin\NetworkingPlugin\..\..\Assets\Plugins\NetworkingPlugin.dll

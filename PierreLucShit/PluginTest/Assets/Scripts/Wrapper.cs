@@ -29,7 +29,7 @@ public class Wrapper : MonoBehaviour
 
 
     [Header("Server")]
-    [SerializeField] private string serverAddress;
+    [SerializeField] private string serverAddress = "127.0.0.1";
 
     private const string path = "/Plugins/NetworkingPlugin.dll";
     private IntPtr Plugin_Handle;
@@ -110,14 +110,15 @@ public class Wrapper : MonoBehaviour
 
         if (connected)
         {
-
             if (Input.GetKeyDown(KeyCode.M))
             {
-                SendTransform(transform.GetChild(0).position);
+                SendTransform(transform.GetChild(0).transform.position);
             }
-
-            ReadTransform(ref otherPos, ref clientIdSave);
-            transform.GetChild(clientIdSave).position = otherPos;
+            if (Input.GetKeyDown(KeyCode.N))
+            {
+                ReadTransform(ref otherPos, ref clientIdSave);
+                transform.GetChild(clientIdSave).transform.position = otherPos;
+            }
         }
     }
 
