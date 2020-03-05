@@ -34,9 +34,13 @@ PLUGIN_OUT void SendTransform(Vector3 transform)
 {
 	char message[BUFLEN];
 	
-	std::string msg = std::to_string(1) + clientID + std::to_string(transform.x) + "@" + std::to_string(transform.y) + "@" + std::to_string(transform.z);
+	//std::string msg = std::to_string(1) + clientID + std::to_string(transform.x) + "@" + std::to_string(transform.y) + "@" + std::to_string(transform.z);
 	
-	strcpy_s(message, (char*)msg.c_str());
+	//strcpy_s(message, (char*)msg.c_str());
+	memset(message, 0, BUFLEN);
+	message[0] = messageType::transformMessage;
+	message[1] = clientID;
+	memcpy(&message[2], reinterpret_cast<char*>(&transform), sizeof(Vector3));
 	
 	if (sendto(client_socket, message, BUFLEN, 0, ptr->ai_addr, ptr->ai_addrlen) == SOCKET_ERROR)
 	{
@@ -69,24 +73,27 @@ PLUGIN_OUT void ReadTransform(Vector3 &transform, int &clientID) {
 
 	if (sError != WSAEWOULDBLOCK && bytes_received > 0)
 	{
-		switch (buf[0])
+		messageType incoming = static_cast<messageType>(buf[0]);
+		switch (incoming)
 		{
-		case '1':
+		case messageType::transformMessage:
 		{
-			std::string tmp = buf;
-			tmp = tmp.substr(2);
-			std::size_t pos = tmp.find("@");					//Find First Break
-			tempx = std::stof(tmp.substr(0, pos - 1), NULL);	//String to Float - Transform.x
-			tmp = tmp.substr(pos + 1);							//Substring After @
-			pos = tmp.find("@");								//Find Second Break
-			tempy = std::stof(tmp.substr(0, pos - 1), NULL);	//String to Float - Transform.y
-			tempz = std::stof(tmp.substr(pos + 1), NULL);		//String to Float - Transform.z
+			//std::string tmp = buf;
+			//tmp = tmp.substr(2);
+			//std::size_t pos = tmp.find("@");					//Find First Break
+			//tempx = std::stof(tmp.substr(0, pos - 1), NULL);	//String to Float - Transform.x
+			//tmp = tmp.substr(pos + 1);							//Substring After @
+			//pos = tmp.find("@");								//Find Second Break
+			//tempy = std::stof(tmp.substr(0, pos - 1), NULL);	//String to Float - Transform.y
+			//tempz = std::stof(tmp.substr(pos + 1), NULL);		//String to Float - Transform.z
+			//
+			//std::cout << "tempx: " << tempx << std::endl;		//TransformX
+			//std::cout << "tempy: " << tempy << std::endl;		//TransformY
+			//std::cout << "tempz: " << tempz << std::endl;		//TransformZ
 
-			std::cout << "tempx: " << tempx << std::endl;		//TransformX
-			std::cout << "tempy: " << tempy << std::endl;		//TransformY
-			std::cout << "tempz: " << tempz << std::endl;		//TransformZ
-
-			transform = Vector3(tempx, tempy, tempz);
+			memcpy(&transform, reinterpret_cast<Vector3*>(&buf[2]), sizeof(Vector3));
+			std::cout << transform.ToString();
+			//transform = Vector3(tempx, tempy, tempz);
 			clientID = buf[1];
 			return;
 		}
@@ -97,6 +104,7 @@ PLUGIN_OUT void ReadTransform(Vector3 &transform, int &clientID) {
 	}
 	else
 	{
+		std::cout<<sError;
 		std::cout << "Nothing Received" << std::endl;
 	}
 }
@@ -143,9 +151,7 @@ PLUGIN_OUT bool AttemptConnect()
 {
 	char message[BUFLEN];
 
-	std::string msg = std::to_string(messageType::connectAttempt);
-
-	strcpy_s(message, (char*)msg.c_str());
+	message[0] = messageType::connectAttempt;
 
 	if (sendto(client_socket, message, BUFLEN, 0, ptr->ai_addr, ptr->ai_addrlen) == SOCKET_ERROR)
 	{

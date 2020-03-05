@@ -115,11 +115,17 @@ void acceptConnection(sockaddr_in addr, int addrLen)
 	else
 	{
 		std::cout << "Connection sent" << std::endl;
+		client *tempClient = new client;
+		tempClient->clientAddr = addr;
+		tempClient->clientAddrLen = addrLen;
+		tempClient->clientID = clientCount;
+		clients.push_back(tempClient);
 		clientCount++;
 	}
 }
 
-Vector3 readTransform(const char* buf) {
+Vector3 readTransform(const char* buf)
+{
 	float tempx, tempy, tempz;
 
 	std::string tmp = buf;
@@ -142,8 +148,12 @@ void passTransform(const char* buf)
 {
 	for (int i = 0; i < clients.size(); i++)
 	{
-		if (i == buf[1])
+		if (i == static_cast<INT8>(buf[1]))
 		{
+			if (sendto(server_socket, buf, BUFLEN, 0, (sockaddr*)&clients[i]->clientAddr, clients[i]->clientAddrLen) == SOCKET_ERROR)
+			{
+				std::cout << "Transform failed to send..." << WSAGetLastError() << std::endl;
+			}
 			continue;
 		}
 
@@ -180,15 +190,16 @@ int main()
 
 		if (sError != WSAEWOULDBLOCK && bytes_received > 0)
 		{
-			switch (buf[0])
+			messageType incoming = static_cast<messageType>(buf[0]);
+			switch (incoming)
 			{
-			case '0':
+			case messageType::connectAttempt:
 				std::cout << "Connection attempt received" << std::endl;
 				acceptConnection(fromAddr, fromlen);
 				break;
-			case '1':
-				passTransform(buf);
-				std::cout << buf << std::endl;
+			case messageType::transformMessage:
+					passTransform(buf);
+					std::cout << buf << std::endl;
 				break;
 			default:
 				std::cout << "Unknown" << std::endl;
