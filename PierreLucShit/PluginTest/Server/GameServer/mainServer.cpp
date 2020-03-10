@@ -150,10 +150,10 @@ void passTransform(const char* buf)
 	{
 		if (i == static_cast<INT8>(buf[1]))
 		{
-			if (sendto(server_socket, buf, BUFLEN, 0, (sockaddr*)&clients[i]->clientAddr, clients[i]->clientAddrLen) == SOCKET_ERROR)
-			{
-				std::cout << "Transform failed to send..." << WSAGetLastError() << std::endl;
-			}
+			//if (sendto(server_socket, buf, BUFLEN, 0, (sockaddr*)&clients[i]->clientAddr, clients[i]->clientAddrLen) == SOCKET_ERROR)
+			//{
+			//	std::cout << "Transform failed to send..." << WSAGetLastError() << std::endl;
+			//}
 			continue;
 		}
 

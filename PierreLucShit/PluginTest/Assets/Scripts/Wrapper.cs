@@ -110,15 +110,15 @@ public class Wrapper : MonoBehaviour
 
         if (connected)
         {
-            if (Input.GetKeyDown(KeyCode.M))
-            {
+            //if (Input.GetKeyDown(KeyCode.M))
+            //{
                 SendTransform(transform.GetChild(0).localPosition);
-            }
-            if (Input.GetKeyDown(KeyCode.N))
-            {
+            //}
+            //if (Input.GetKeyDown(KeyCode.N))
+            //{
                 ReadTransform(ref otherPos, ref clientIdSave);
                 transform.GetChild(1).transform.localPosition = otherPos;
-            }
+            //}
         }
     }
 
