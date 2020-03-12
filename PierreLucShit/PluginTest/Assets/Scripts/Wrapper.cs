@@ -25,6 +25,7 @@ public class Wrapper : MonoBehaviour
 {
     int clientIdSave;
     Vector3 otherPos = new Vector3(0f, 0f, 0f);
+    Quaternion otherRot = new Quaternion(0f,0f,0f,0f);
     bool connected = false;
 
 
@@ -54,10 +55,10 @@ public class Wrapper : MonoBehaviour
     public OutputConsoleMessageDelegate OutputConsoleMessage;
 
     //Game Commands
-    public delegate IntPtr SendTransformDelegate(Vector3 transform);
+    public delegate IntPtr SendTransformDelegate(Vector3 position, Quaternion rotation);
     public SendTransformDelegate SendTransform;
 
-    public delegate void ReadTransformDelegate(ref Vector3 transform, ref int clientID);
+    public delegate void ReadTransformDelegate(ref Vector3 position, ref Quaternion rotation , ref int clientID);
     public ReadTransformDelegate ReadTransform;
 
 
@@ -112,12 +113,13 @@ public class Wrapper : MonoBehaviour
         {
             //if (Input.GetKeyDown(KeyCode.M))
             //{
-                SendTransform(transform.GetChild(0).localPosition);
+                SendTransform(transform.GetChild(0).localPosition, transform.GetChild(0).localRotation);
             //}
             //if (Input.GetKeyDown(KeyCode.N))
             //{
-                ReadTransform(ref otherPos, ref clientIdSave);
+                ReadTransform(ref otherPos, ref otherRot, ref clientIdSave);
                 transform.GetChild(1).transform.localPosition = otherPos;
+                transform.GetChild(1).transform.localRotation = otherRot;
             //}
         }
     }

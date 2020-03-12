@@ -29,6 +29,21 @@ struct Vector3
 	float x, y, z;
 };
 
+struct Vector4
+{
+	Vector4(float px, float py, float pz, float pw) : x(px), y(py), z(pz), w(pw) {}
+
+	std::string ToString()
+	{
+		return "x: " + std::to_string(x) +
+			"\ny: " + std::to_string(y) +
+			"\nz: " + std::to_string(z) +
+			"\nw: " + std::to_string(w) + "\n";
+	}
+
+	float x, y, z, w;
+};
+
 enum messageType :INT8 {
 	connectAttempt,
 	transformMessage
@@ -59,6 +74,6 @@ extern "C"
 	PLUGIN_OUT const char* OutputMessageToConsole(const char* msg);
 	PLUGIN_OUT bool InitClient(const char* server);
 	PLUGIN_OUT bool AttemptConnect();
-	PLUGIN_OUT void ReadTransform(Vector3 &transform, int &clientID);
-	PLUGIN_OUT void SendTransform(Vector3 transform);
+	PLUGIN_OUT void ReadTransform(Vector3 &position, Vector4 &rotation, int &clientID);
+	PLUGIN_OUT void SendTransform(Vector3 position, Vector4 rotation);
 }

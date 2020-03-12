@@ -30,7 +30,7 @@ PLUGIN_OUT const char* OutputMessageToConsole(const char* msg)
 	return msg;
 }
 
-PLUGIN_OUT void SendTransform(Vector3 transform)
+PLUGIN_OUT void SendTransform(Vector3 position, Vector4 rotation)
 {
 	char message[BUFLEN];
 	
@@ -40,7 +40,8 @@ PLUGIN_OUT void SendTransform(Vector3 transform)
 	memset(message, 0, BUFLEN);
 	message[0] = messageType::transformMessage;
 	message[1] = clientID;
-	memcpy(&message[2], reinterpret_cast<char*>(&transform), sizeof(Vector3));
+	memcpy(&message[2], reinterpret_cast<char*>(&position), sizeof(Vector3));
+	memcpy(&message[2+sizeof(Vector3)], reinterpret_cast<char*>(&rotation), sizeof(Vector4));
 	
 	if (sendto(client_socket, message, BUFLEN, 0, ptr->ai_addr, ptr->ai_addrlen) == SOCKET_ERROR)
 	{
@@ -53,7 +54,7 @@ PLUGIN_OUT void SendTransform(Vector3 transform)
 	return;
 }
 
-PLUGIN_OUT void ReadTransform(Vector3 &transform, int &clientID) {
+PLUGIN_OUT void ReadTransform(Vector3 &position, Vector4 &rotation, int &clientID) {
 
 	float tempx, tempy, tempz;
 
@@ -78,22 +79,10 @@ PLUGIN_OUT void ReadTransform(Vector3 &transform, int &clientID) {
 		{
 		case messageType::transformMessage:
 		{
-			//std::string tmp = buf;
-			//tmp = tmp.substr(2);
-			//std::size_t pos = tmp.find("@");					//Find First Break
-			//tempx = std::stof(tmp.substr(0, pos - 1), NULL);	//String to Float - Transform.x
-			//tmp = tmp.substr(pos + 1);							//Substring After @
-			//pos = tmp.find("@");								//Find Second Break
-			//tempy = std::stof(tmp.substr(0, pos - 1), NULL);	//String to Float - Transform.y
-			//tempz = std::stof(tmp.substr(pos + 1), NULL);		//String to Float - Transform.z
-			//
-			//std::cout << "tempx: " << tempx << std::endl;		//TransformX
-			//std::cout << "tempy: " << tempy << std::endl;		//TransformY
-			//std::cout << "tempz: " << tempz << std::endl;		//TransformZ
-
-			memcpy(&transform, reinterpret_cast<Vector3*>(&buf[2]), sizeof(Vector3));
-			std::cout << transform.ToString();
-			//transform = Vector3(tempx, tempy, tempz);
+			memcpy(&position, reinterpret_cast<Vector3*>(&buf[2]), sizeof(Vector3)); //Replace position vector in memory
+			memcpy(&rotation, reinterpret_cast<Vector3*>(&buf[2+sizeof(Vector3)]), sizeof(Vector4)); //Replace rotation vector in memory
+			std::cout << position.ToString(); //Print position
+			std::cout << rotation.ToString(); //Print rotation
 			clientID = buf[1];
 			return;
 		}

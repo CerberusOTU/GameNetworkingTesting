@@ -124,36 +124,22 @@ void acceptConnection(sockaddr_in addr, int addrLen)
 	}
 }
 
-Vector3 readTransform(const char* buf)
+Vector3 readTransform(char* buf)
 {
-	float tempx, tempy, tempz;
-
-	std::string tmp = buf;
-	tmp = tmp.substr(2);
-	std::size_t pos = tmp.find("@");					//Find First Break
-	tempx = std::stof(tmp.substr(0, pos - 1), NULL);	//String to Float - Transform.x
-	tmp = tmp.substr(pos + 1);							//Substring After @
-	pos = tmp.find("@");								//Find Second Break
-	tempy = std::stof(tmp.substr(0, pos - 1), NULL);	//String to Float - Transform.y
-	tempz = std::stof(tmp.substr(pos + 1), NULL);		//String to Float - Transform.z
-
-	std::cout << "tempx: " << tempx << std::endl;		//TransformX
-	std::cout << "tempy: " << tempy << std::endl;		//TransformY
-	std::cout << "tempz: " << tempz << std::endl;		//TransformZ
-
-	return Vector3(tempx, tempy, tempz);
+	Vector3* tempVec3 = reinterpret_cast<Vector3*>(&buf[2]);
+	return *tempVec3;
 }
 
-void passTransform(const char* buf)
+void passPacket(const char* buf)
 {
 	for (int i = 0; i < clients.size(); i++)
 	{
 		if (i == static_cast<INT8>(buf[1]))
 		{
-			//if (sendto(server_socket, buf, BUFLEN, 0, (sockaddr*)&clients[i]->clientAddr, clients[i]->clientAddrLen) == SOCKET_ERROR)
-			//{
-			//	std::cout << "Transform failed to send..." << WSAGetLastError() << std::endl;
-			//}
+			if (sendto(server_socket, buf, BUFLEN, 0, (sockaddr*)&clients[i]->clientAddr, clients[i]->clientAddrLen) == SOCKET_ERROR)
+			{
+				std::cout << "Transform failed to send..." << WSAGetLastError() << std::endl;
+			}
 			continue;
 		}
 
@@ -198,8 +184,8 @@ int main()
 				acceptConnection(fromAddr, fromlen);
 				break;
 			case messageType::transformMessage:
-					passTransform(buf);
-					std::cout << buf << std::endl;
+				passPacket(buf);
+				std::cout << buf << std::endl;
 				break;
 			default:
 				std::cout << "Unknown" << std::endl;

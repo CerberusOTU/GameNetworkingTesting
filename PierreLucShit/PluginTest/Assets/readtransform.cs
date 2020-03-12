@@ -17,7 +17,5 @@ public class readtransform : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        wrapper.ReadTransform(ref position, ref clientID);
-        this.transform.position = position;
     }
 }
