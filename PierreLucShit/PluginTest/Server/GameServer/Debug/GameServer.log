@@ -1,2 +1,4 @@
 ﻿  mainServer.cpp
-  GameServer.vcxproj -> D:\001 School\001 Networking\PierreLucShit\PluginTest\Server\GameServer\Debug\GameServer.exe
+H:\Repositories\GameNetworkingTesting\PierreLucShit\PluginTest\Server\GameServer\mainServer.cpp(119,40): warning C4267: '=': conversion from 'size_t' to 'INT8', possible loss of data
+H:\Repositories\GameNetworkingTesting\PierreLucShit\PluginTest\Server\GameServer\mainServer.cpp(132,21): warning C4018: '<': signed/unsigned mismatch
+  GameServer.vcxproj -> H:\Repositories\GameNetworkingTesting\PierreLucShit\PluginTest\Server\GameServer\Debug\GameServer.exe

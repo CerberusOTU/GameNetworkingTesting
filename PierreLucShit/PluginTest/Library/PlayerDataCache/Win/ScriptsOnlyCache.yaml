@@ -487,4 +487,4 @@ ScriptsOnlyBuild:
   platform: 5
   scenePathNames:
   - Assets/Scenes/SampleScene.unity
-  playerPath: D:/001 School/001 Networking/PierreLucShit/PluginTest/exe/PluginTest.exe
+  playerPath: H:/Repositories/GameNetworkingTesting/PierreLucShit/PluginTest/BuildExe/PluginTest.exe

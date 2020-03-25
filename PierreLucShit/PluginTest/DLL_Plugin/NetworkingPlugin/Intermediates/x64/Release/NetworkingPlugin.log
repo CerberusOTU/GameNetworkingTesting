@@ -1,0 +1,15 @@
+﻿C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppBuild.targets(452,5): warning MSB8004: Intermediate Directory does not end with a trailing slash.  This build instance will add the slash as it is required to allow proper evaluation of the Intermediate Directory.
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppBuild.targets(453,5): warning MSB8004: Output Directory does not end with a trailing slash.  This build instance will add the slash as it is required to allow proper evaluation of the Output Directory.
+  Source.cpp
+H:\Repositories\GameNetworkingTesting\PierreLucShit\PluginTest\DLL_Plugin\NetworkingPlugin\Source.cpp(46,5): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+H:\Repositories\GameNetworkingTesting\PierreLucShit\PluginTest\DLL_Plugin\NetworkingPlugin\Source.cpp(60,22): warning C4101: 'tempz': unreferenced local variable
+H:\Repositories\GameNetworkingTesting\PierreLucShit\PluginTest\DLL_Plugin\NetworkingPlugin\Source.cpp(60,15): warning C4101: 'tempy': unreferenced local variable
+H:\Repositories\GameNetworkingTesting\PierreLucShit\PluginTest\DLL_Plugin\NetworkingPlugin\Source.cpp(60,8): warning C4101: 'tempx': unreferenced local variable
+H:\Repositories\GameNetworkingTesting\PierreLucShit\PluginTest\DLL_Plugin\NetworkingPlugin\Source.cpp(146,5): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+     Creating library ..\..\Assets\Plugins\NetworkingPlugin.lib and object ..\..\Assets\Plugins\NetworkingPlugin.exp
+  Generating code
+  0 of 128 functions ( 0.0%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    0 functions had inline decision re-evaluated but remain unchanged
+  Finished generating code
+  NetworkingPlugin.vcxproj -> H:\Repositories\GameNetworkingTesting\PierreLucShit\PluginTest\DLL_Plugin\NetworkingPlugin\..\..\Assets\Plugins\NetworkingPlugin.dll

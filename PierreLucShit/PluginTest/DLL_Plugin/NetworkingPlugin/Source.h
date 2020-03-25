@@ -8,6 +8,7 @@
 #include <WinSock2.h>
 #include <ws2tcpip.h>
 #include <stdio.h>
+#include <stdint.h>
 #pragma comment(lib, "Ws2_32.lib")
 ///////////////////////
 
@@ -46,7 +47,8 @@ struct Vector4
 
 enum messageType :INT8 {
 	connectAttempt,
-	transformMessage
+	transformMessage,
+	playerJoining
 };
 
 struct CS_to_Plugin_Functions
@@ -73,7 +75,7 @@ extern "C"
 	PLUGIN_OUT void FreeTheConsole();
 	PLUGIN_OUT const char* OutputMessageToConsole(const char* msg);
 	PLUGIN_OUT bool InitClient(const char* server);
-	PLUGIN_OUT bool AttemptConnect();
-	PLUGIN_OUT void ReadTransform(Vector3 &position, Vector4 &rotation, int &clientID);
+	PLUGIN_OUT bool AttemptConnect(int &clientIdSave);
+	PLUGIN_OUT bool ReadTransform(Vector3 &position, Vector4 &rotation, int &clientID);
 	PLUGIN_OUT void SendTransform(Vector3 position, Vector4 rotation);
 }

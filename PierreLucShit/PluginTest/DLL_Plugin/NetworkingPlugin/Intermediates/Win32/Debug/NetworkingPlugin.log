@@ -1,5 +1,7 @@
-﻿C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\MSBuild\Microsoft\VC\v160\Microsoft.CppBuild.targets(437,5): warning MSB8004: Intermediate Directory does not end with a trailing slash.  This build instance will add the slash as it is required to allow proper evaluation of the Intermediate Directory.
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\MSBuild\Microsoft\VC\v160\Microsoft.CppBuild.targets(438,5): warning MSB8004: Output Directory does not end with a trailing slash.  This build instance will add the slash as it is required to allow proper evaluation of the Output Directory.
+﻿C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppBuild.targets(452,5): warning MSB8004: Intermediate Directory does not end with a trailing slash.  This build instance will add the slash as it is required to allow proper evaluation of the Intermediate Directory.
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppBuild.targets(453,5): warning MSB8004: Output Directory does not end with a trailing slash.  This build instance will add the slash as it is required to allow proper evaluation of the Output Directory.
   Source.cpp
-     Creating library ..\..\NetworkingTut\Assets\Plugins\NetworkingPlugin.lib and object ..\..\NetworkingTut\Assets\Plugins\NetworkingPlugin.exp
-  NetworkingPlugin.vcxproj -> C:\Users\gilro\OneDrive\Documents\Third Year\Second Semester\Networking\NetworkingPlugin\NetworkingPlugin\..\..\NetworkingTut\Assets\Plugins\NetworkingPlugin.dll
+H:\Repositories\GameNetworkingTesting\PierreLucShit\PluginTest\DLL_Plugin\NetworkingPlugin\Source.cpp(59,22): warning C4101: 'tempz': unreferenced local variable
+H:\Repositories\GameNetworkingTesting\PierreLucShit\PluginTest\DLL_Plugin\NetworkingPlugin\Source.cpp(59,15): warning C4101: 'tempy': unreferenced local variable
+H:\Repositories\GameNetworkingTesting\PierreLucShit\PluginTest\DLL_Plugin\NetworkingPlugin\Source.cpp(59,8): warning C4101: 'tempx': unreferenced local variable
+  NetworkingPlugin.vcxproj -> H:\Repositories\GameNetworkingTesting\PierreLucShit\PluginTest\DLL_Plugin\NetworkingPlugin\..\..\Assets\Plugins\NetworkingPlugin.dll

@@ -23,9 +23,9 @@ public struct CS_to_Plugin_Functions
 
 public class Wrapper : MonoBehaviour
 {
-    int clientIdSave;
+    int clientIdSave, clientIdIncoming;
     Vector3 otherPos = new Vector3(0f, 0f, 0f);
-    Quaternion otherRot = new Quaternion(0f,0f,0f,0f);
+    Quaternion otherRot = new Quaternion(0f, 0f, 0f, 0f);
     bool connected = false;
 
 
@@ -45,7 +45,7 @@ public class Wrapper : MonoBehaviour
     public delegate bool InitClientDelegate(string server);
     public InitClientDelegate InitClient;
 
-    public delegate bool AttemptConnectDelegate();
+    public delegate bool AttemptConnectDelegate(ref int clientIdSave);
     public AttemptConnectDelegate AttemptConnect;
 
     public delegate void FreeTheConsoleDelegate();
@@ -58,7 +58,7 @@ public class Wrapper : MonoBehaviour
     public delegate IntPtr SendTransformDelegate(Vector3 position, Quaternion rotation);
     public SendTransformDelegate SendTransform;
 
-    public delegate void ReadTransformDelegate(ref Vector3 position, ref Quaternion rotation , ref int clientID);
+    public delegate bool ReadTransformDelegate(ref Vector3 position, ref Quaternion rotation, ref int clientID);
     public ReadTransformDelegate ReadTransform;
 
 
@@ -97,9 +97,14 @@ public class Wrapper : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.C) && !connected)
         {
-            if (AttemptConnect())
+            if (AttemptConnect(ref clientIdSave))
             {
-                Debug.Log("Connected to Server!");
+                Debug.Log("Connected to Server! Client: " + clientIdSave);
+                for (int i = 0; i < clientIdSave; i++)
+                {
+                    Instantiate(Resources.Load("Pawn"), new Vector3(0f, 1f, 0f), Quaternion.identity, gameObject.transform);
+                }
+                Instantiate(Resources.Load("Player"), new Vector3(0f, 0f, 0f), Quaternion.identity, gameObject.transform);
                 connected = true;
             }
             else
@@ -111,16 +116,13 @@ public class Wrapper : MonoBehaviour
 
         if (connected)
         {
-            //if (Input.GetKeyDown(KeyCode.M))
-            //{
-                SendTransform(transform.GetChild(0).localPosition, transform.GetChild(0).localRotation);
-            //}
-            //if (Input.GetKeyDown(KeyCode.N))
-            //{
-                ReadTransform(ref otherPos, ref otherRot, ref clientIdSave);
-                transform.GetChild(1).transform.localPosition = otherPos;
-                transform.GetChild(1).transform.localRotation = otherRot;
-            //}
+            SendTransform(transform.GetChild(0).localPosition, transform.GetChild(0).localRotation);
+            if (ReadTransform(ref otherPos, ref otherRot, ref clientIdIncoming))
+            {
+                Debug.Log("Incoming ID: " + clientIdIncoming);
+                transform.GetChild(clientIdIncoming).transform.localPosition = otherPos;
+                transform.GetChild(clientIdIncoming).transform.localRotation = otherRot;
+            }
         }
     }
 

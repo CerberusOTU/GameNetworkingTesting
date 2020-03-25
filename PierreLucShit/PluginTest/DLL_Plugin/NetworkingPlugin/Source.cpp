@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "Source.h"
 
-char clientID;
+int8_t clientID;
 
 
 PLUGIN_OUT void InitPlugin(CS_to_Plugin_Functions funcs)
@@ -49,12 +49,13 @@ PLUGIN_OUT void SendTransform(Vector3 position, Vector4 rotation)
 	}
 	
 	std::cout << "Sent: " << message << std::endl;
+	std::cout << "ClientID: " << static_cast<int>(clientID) << std::endl;
 	memset(message, '\0', BUFLEN);
 	
 	return;
 }
 
-PLUGIN_OUT void ReadTransform(Vector3 &position, Vector4 &rotation, int &clientID) {
+PLUGIN_OUT bool ReadTransform(Vector3 &position, Vector4 &rotation, int &clientIDIncoming) {
 
 	float tempx, tempy, tempz;
 
@@ -83,8 +84,8 @@ PLUGIN_OUT void ReadTransform(Vector3 &position, Vector4 &rotation, int &clientI
 			memcpy(&rotation, reinterpret_cast<Vector3*>(&buf[2+sizeof(Vector3)]), sizeof(Vector4)); //Replace rotation vector in memory
 			std::cout << position.ToString(); //Print position
 			std::cout << rotation.ToString(); //Print rotation
-			clientID = buf[1];
-			return;
+			clientIDIncoming = buf[1];
+			return true;
 		}
 		default:
 			std::cout << "Unknown" << std::endl;
@@ -96,6 +97,7 @@ PLUGIN_OUT void ReadTransform(Vector3 &position, Vector4 &rotation, int &clientI
 		std::cout<<sError;
 		std::cout << "Nothing Received" << std::endl;
 	}
+	return false;
 }
 
 PLUGIN_OUT bool InitClient(const char* server)
@@ -105,7 +107,6 @@ PLUGIN_OUT bool InitClient(const char* server)
 
 	int error;
 	error = WSAStartup(MAKEWORD(2, 2), &wsa);
-
 	if (error != 0) {
 		printf("Failed to initialize %d\n", error);
 		return 0;
@@ -136,7 +137,7 @@ PLUGIN_OUT bool InitClient(const char* server)
 	return 1;
 }
 
-PLUGIN_OUT bool AttemptConnect()
+PLUGIN_OUT bool AttemptConnect(int &clientIdSave)
 {
 	char message[BUFLEN];
 
@@ -166,11 +167,12 @@ PLUGIN_OUT bool AttemptConnect()
 
 	if (bytes_received > 0)
 	{
-		switch (message[0])
+		switch (static_cast<messageType>(message[0]))
 		{
-		case '0':
+		case messageType::connectAttempt:
 		{
 			clientID = message[1];
+			clientIdSave = clientID;
 			std::cout << "ClientID: " << clientID << std::endl;
 
 			/// Change to non-blocking mode

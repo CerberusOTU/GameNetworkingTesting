@@ -35,11 +35,11 @@ struct client {
 };
 
 std::vector<client*> clients;
-INT8 clientCount = 0;
 
-enum messageType :INT8 {
+enum messageType:INT8 {
 	connectAttempt,
-	transformMessage
+	transformMessage,
+	playerJoining
 };
 
 
@@ -104,9 +104,8 @@ bool initNetwork() {
 void acceptConnection(sockaddr_in addr, int addrLen)
 {
 	char clientID[BUFLEN];
-	std::string msg = std::to_string(messageType::connectAttempt) + std::to_string(clientCount);
-
-	strcpy_s(clientID, (char*)msg.c_str());
+	clientID[0] = messageType::connectAttempt;
+	clientID[1] = static_cast<INT8>(clients.size());
 
 	if (sendto(server_socket, clientID, BUFLEN, 0, (sockaddr*)&addr, addrLen) == SOCKET_ERROR)
 	{
@@ -118,9 +117,8 @@ void acceptConnection(sockaddr_in addr, int addrLen)
 		client *tempClient = new client;
 		tempClient->clientAddr = addr;
 		tempClient->clientAddrLen = addrLen;
-		tempClient->clientID = clientCount;
+		tempClient->clientID = clients.size();
 		clients.push_back(tempClient);
-		clientCount++;
 	}
 }
 
@@ -132,14 +130,14 @@ Vector3 readTransform(char* buf)
 
 void passPacket(const char* buf)
 {
-	for (int i = 0; i < clients.size(); i++)
+	for (INT8 i = 0; i < clients.size(); i++)
 	{
 		if (i == static_cast<INT8>(buf[1]))
 		{
-			if (sendto(server_socket, buf, BUFLEN, 0, (sockaddr*)&clients[i]->clientAddr, clients[i]->clientAddrLen) == SOCKET_ERROR)
-			{
-				std::cout << "Transform failed to send..." << WSAGetLastError() << std::endl;
-			}
+			//if (sendto(server_socket, buf, BUFLEN, 0, (sockaddr*)&clients[i]->clientAddr, clients[i]->clientAddrLen) == SOCKET_ERROR)
+			//{
+			//	std::cout << "Transform failed to send..." << WSAGetLastError() << std::endl;
+			//}
 			continue;
 		}
 
